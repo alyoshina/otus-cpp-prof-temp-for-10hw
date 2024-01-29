@@ -1,4 +1,4 @@
-name: 'Documentation Bulk'
+name: 'Documentation Async'
 
 on:
   push:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: true
-      - run: sudo apt-get update -y && sudo apt-get install cmake libboost-program-options-dev -y
+      - run: sudo apt-get update -y && sudo apt-get install cmake -y
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DCMAKE_C_COMPILER="/usr/bin/gcc-13" -DCMAKE_CXX_COMPILER="/usr/bin/g++-13"
       - run: cmake --build .
       - run: cmake --build . --target package
@@ -54,6 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bulk-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: bulk-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./async-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: async-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package

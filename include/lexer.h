@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <atomic>
 
 /** @brief Converting string received from console into a command type
 *
@@ -22,13 +23,19 @@ public:
         End, /**< is input end */
     };
 
-    bool end() const { return c_in.eof(); }
+    virtual void setStoped(bool v) {
+        stopped.store(v);
+    };
+
+    virtual void setDataReady(bool v) {
+        ready.store(v);
+    };
 
     /** @brief Read line from console and convert into a command type
     * @return command type
     */
     CmdType nextLine() {
-        if (!std::getline(c_in, strCmd)) {
+        if (!readLine(strCmd)) {
             return CmdType::End;
         }
         if (сmdType.contains(strCmd)) {
@@ -36,7 +43,8 @@ public:
         }
         return CmdType::Cmd;
     }
-public:
+
+protected:
     std::istream &c_in;
     std::string strCmd;
     std::unordered_map<std::string, CmdType> сmdType {
@@ -44,4 +52,10 @@ public:
         {"}", CmdType::Rbrace},
         {"End", CmdType::End}
     };
+    std::atomic_bool stopped {false};
+    std::atomic_bool ready {false};
+
+    virtual bool readLine(std::string &str) {
+        return bool(std::getline(c_in, str));
+    }
 };

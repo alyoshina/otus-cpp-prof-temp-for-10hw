@@ -1,8 +1,9 @@
 #pragma once
 
 #include "lexer.h"
-#include "output.h"
+#include "output_thread.h"
 #include "commands.h"
+
 #include <memory>
 
 /** @brief Convert received command type into a command.
@@ -10,7 +11,8 @@
 */
 class Parser {
 public:
-    Parser(std::shared_ptr<Lexer> l, std::list<std::shared_ptr<IOutput>>& list, const std::size_t count)
+    Parser(std::shared_ptr<Lexer> l, std::list<std::shared_ptr<IOutput>>& list
+            , const std::size_t count)
         : lexer(l)
         , oList(list)
         , bulk(std::make_shared<Commands>(count, oList))
@@ -24,6 +26,8 @@ public:
     * @return false if end
     */
     bool expr();
+    void setStoped(bool v) { lexer->setStoped(v); }
+    void setDataReady(bool v) { lexer->setDataReady(v); };
 private:
     std::shared_ptr<Lexer> lexer;
     std::list<std::shared_ptr<IOutput>> oList;
