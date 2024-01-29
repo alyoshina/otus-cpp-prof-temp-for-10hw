@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classICmd.html" title=" " alt="" coords="5,31,59,57"/>
+<area shape="rect" id="node2" href="$classCmd.html" title="Command." alt="" coords="128,5,177,32"/>
+<area shape="rect" id="node3" href="$classICommands.html" title="For bulk." alt="" coords="107,56,199,83"/>
+<area shape="rect" id="node4" href="$classCommands.html" title="Size bulk." alt="" coords="270,5,358,32"/>
+<area shape="rect" id="node5" href="$classDinamicCommands.html" title="Dinamic bulk." alt="" coords="247,56,381,83"/>
+<area shape="rect" id="node6" href="$classSharedCommands.html" title="Size bulk with shared list of commands." alt="" coords="249,107,379,133"/>
+</map>

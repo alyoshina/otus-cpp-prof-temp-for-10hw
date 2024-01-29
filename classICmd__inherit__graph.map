@@ -1,0 +1,8 @@
+<map id="ICmd" name="ICmd">
+<area shape="rect" id="node1" title=" " alt="" coords="111,5,164,32"/>
+<area shape="rect" id="node2" href="$classCmd.html" title="Command." alt="" coords="66,80,115,107"/>
+<area shape="rect" id="node3" href="$classICommands.html" title="For bulk." alt="" coords="139,80,231,107"/>
+<area shape="rect" id="node4" href="$classCommands.html" title="Size bulk." alt="" coords="5,155,93,181"/>
+<area shape="rect" id="node5" href="$classDinamicCommands.html" title="Dinamic bulk." alt="" coords="118,155,253,181"/>
+<area shape="rect" id="node6" href="$classSharedCommands.html" title="Size bulk with shared list of commands." alt="" coords="277,155,406,181"/>
+</map>

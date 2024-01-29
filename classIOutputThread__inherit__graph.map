@@ -1,0 +1,6 @@
+<map id="IOutputThread" name="IOutputThread">
+<area shape="rect" id="node1" title=" " alt="" coords="108,80,213,107"/>
+<area shape="rect" id="node3" href="$classConsoleOutputThread.html" title="Thread (log) to output commands information to the console." alt="" coords="5,155,153,181"/>
+<area shape="rect" id="node4" href="$classFileOutputThreads.html" title="Threads (file1, file2) to output commands information to the files." alt="" coords="177,155,307,181"/>
+<area shape="rect" id="node2" href="$classIOutput.html" title=" " alt="" coords="128,5,193,32"/>
+</map>
