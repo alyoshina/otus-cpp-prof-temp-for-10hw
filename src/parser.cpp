@@ -17,11 +17,11 @@ bool Parser::expr() {
             bulk->addRbrace();
             bulk->exec();
             if (bulk->isEnd()) {
-                bulk = std::make_shared<Commands>(cmdsCount, oList);
+                bulk = getStaticBulk();
             }
             break;
         case Lexer::CmdType::End:
-            bulk = nullptr;
+            deleteBulk();
             retVal = false;
             break;
         default:

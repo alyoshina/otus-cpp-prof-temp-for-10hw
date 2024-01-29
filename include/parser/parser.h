@@ -18,6 +18,7 @@ public:
         , bulk(std::make_shared<Commands>(count, oList))
         , cmdsCount(count)
         {}
+    virtual ~Parser() = default;
     Lexer::CmdType nextCmd() { return lexer->nextLine(); }
     bool parse() { return expr(); }
 
@@ -26,8 +27,16 @@ public:
     * @return false if end
     */
     bool expr();
-    void setStoped(bool v) { lexer->setStoped(v); }
+    void setStoped(bool v) {
+        lexer->setStoped(v);
+    }
     void setDataReady(bool v) { lexer->setDataReady(v); };
+protected:
+    virtual std::shared_ptr<ICommands> getStaticBulk() {
+        return std::make_shared<Commands>(cmdsCount, oList);
+    }
+    void setBulk(std::shared_ptr<ICommands> sptr) { bulk = sptr; }
+    virtual void deleteBulk() { bulk = nullptr; }
 private:
     std::shared_ptr<Lexer> lexer;
     std::list<std::shared_ptr<IOutput>> oList;

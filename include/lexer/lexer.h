@@ -10,7 +10,7 @@
 class Lexer {
 public:
     Lexer(std::istream &in) : c_in(in) {}
-    ~Lexer() = default;
+    virtual ~Lexer() = default;
     const std::string &getCmd() const { return strCmd; }
 
     /** @enum CmdType
