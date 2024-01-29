@@ -20,7 +20,7 @@ public:
             threads.emplace_back(std::move(t));
         }
     }
-    ~IOutputThread() = default;
+    virtual ~IOutputThread() = default;
     void stop() override {
         stopped.store(true);
         cv.notify_all();

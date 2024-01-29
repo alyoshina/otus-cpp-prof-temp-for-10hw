@@ -1,7 +1,7 @@
 #pragma once
 
 #include "lexer_thread_safe.h"
-#include "parser.h"
+#include "shared_bulk_parser.h"
 
 class ParserThread {
 public:
@@ -9,7 +9,7 @@ public:
         //converting string received from console into a command type
         auto lexer = std::make_shared<LexerThreadSafe>(input, m, cv);
         //converting received command type into a command
-        parser = std::make_shared<Parser>(lexer, list, bulk);
+        parser = std::make_shared<SharedBulkForStaticCmdParser>(lexer, list, bulk);
         m_thread = std::thread(&ParserThread::run, this);
     }
     ~ParserThread() = default;

@@ -58,11 +58,12 @@ public:
     /** @brief Executes (command output) commands in bulk
     *
     */
-    void execInAnyCase();
-    void addCmd(std::shared_ptr<ICmd> cmd) { cmds.emplace_back(cmd); }
+    void virtual execInAnyCase();
+    void virtual addCmd(std::shared_ptr<ICmd> cmd) { cmds.emplace_back(cmd); }
 protected:
     std::list<std::shared_ptr<ICmd>> cmds; /**< is list of commands for execute*/
     std::list<std::shared_ptr<IOutput>> oList; /**< is list of objects used for output*/
+    virtual std::list<std::shared_ptr<ICmd>>& getCmdList() { return cmds; }
 };
 
 /** @brief Size bulk
@@ -74,7 +75,7 @@ public:
     ~Commands() { execRest(); };
     void execRest() override { execInAnyCase(); }
     void exec() override {
-        if (cmds.size() == n) {
+        if (getCmdList().size() == n) {
             execInAnyCase();
         }
     }

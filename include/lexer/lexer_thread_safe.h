@@ -12,7 +12,7 @@ public:
         : Lexer(in)
         , m(in_m)
         , cv(in_cv)
-        {}
+    {}
     ~LexerThreadSafe() = default;
 
     void setStoped(bool v) override {

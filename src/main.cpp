@@ -1,15 +1,45 @@
-#include "async.h"
+#include "server.h"
 
-int main(int, char *[]) {
-    std::size_t bulk = 5;
-    auto h = async::connect(bulk);
-    auto h2 = async::connect(bulk);
-    async::receive(h, "1", 1);
-    async::receive(h2, "1\n", 2);
-    async::receive(h, "\n2\n3\n4\n5\n6\n{\na\n", 15);
-    async::receive(h, "b\nc\nd\n}\n89\n", 11);
-    async::disconnect(h);
-    async::disconnect(h2);
+#include <boost/program_options.hpp>
 
-    return 0;
+namespace po = boost::program_options;
+
+/** @brief Server for package processing of commands.
+*
+*/
+int main(int argc, char **argv) {
+    //processing сommand line argument
+    po::options_description desc {"Options"};
+    desc.add_options()
+            ("help,h", "Server for package processing of commands")
+            ("port,p", po::value<unsigned short>() -> default_value(9000), "listening port")
+            ("bulk,b", po::value<std::size_t>() -> default_value(3), "bulk size");
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        return 0;
+    }
+
+    try {
+        ba::io_context ioContext;
+        ba::signal_set signals{ioContext, SIGINT, SIGTERM};
+        signals.async_wait([&](auto, auto) { ioContext.stop(); });
+
+        //start server
+        {
+            Server s(ioContext, vm["bulk"].as<std::size_t>());
+            s.listen(vm["port"].as<unsigned short>());
+            ioContext.run();
+        }
+
+        return EXIT_SUCCESS;
+    } catch (const std::exception& ex) {
+        std::cerr << "Fatal error: " << ex.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Fatal error: unknown" << std::endl;
+    }
+
+    return EXIT_FAILURE;
 }
