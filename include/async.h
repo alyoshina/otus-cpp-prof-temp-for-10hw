@@ -11,9 +11,21 @@ public:
     void addData(const char *data, std::size_t size) {
         parserThread->addData(data, size);
     }
+    void stop();
 private:
     std::shared_ptr<ParserThread> parserThread;
     std::list<std::shared_ptr<IOutput>> list; /**< command output methods */
+};
+
+class MainThreadsSingleton {
+public:
+    static MainThreads* getInstance(std::size_t bulk = 3) {
+        static MainThreads instance(bulk);
+        return &instance;
+    }
+    static void addData(const char *data, std::size_t size) {
+        getInstance()->addData(data, size);
+    }
 };
 
 } //namespace

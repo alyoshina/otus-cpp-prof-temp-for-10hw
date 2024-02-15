@@ -9,12 +9,16 @@ MainThreads::MainThreads(std::size_t bulk) {
     list.push_back(std::make_shared<FileOutputThreads>());
     parserThread = std::make_shared<ParserThread>(list, bulk);
 }
-MainThreads::~MainThreads() {
+
+void MainThreads::stop() {
     parserThread->dataEnd();
     parserThread->join();
     for (auto io: list) {
         io->stop();
     }        
+}
+MainThreads::~MainThreads() {
+    stop();     
 }
 
 } //namespace
@@ -22,18 +26,15 @@ MainThreads::~MainThreads() {
 namespace async {
 
 handle_t connect(std::size_t bulk) {
-    MainThreads *m = new MainThreads(bulk);
+    MainThreads *m = MainThreadsSingleton::getInstance(bulk);
     return static_cast<handle_t>(m);
 }
 
-void receive(handle_t handle, const char *data, std::size_t size) {
-    MainThreads *m = static_cast<MainThreads *>(handle);
-    m->addData(data, size);
+void receive([[maybe_unused]] handle_t handle, const char *data, std::size_t size) {
+    MainThreadsSingleton::addData(data, size);
 }
 
-void disconnect(handle_t handle) {
-    MainThreads *m = static_cast<MainThreads *>(handle);
-    delete m;
+void disconnect([[maybe_unused]] handle_t handle) {
 }
 
 } //async
