@@ -23,16 +23,27 @@ int main(int argc, char **argv) {
     }
 
     try {
-        ba::io_context ioContext;
-        ba::signal_set signals{ioContext, SIGINT, SIGTERM};
-        signals.async_wait([&](auto, auto) { ioContext.stop(); });
+        // ba::io_context ioContext;
+        // ba::signal_set signals{ioContext, SIGINT, SIGTERM};
+        // signals.async_wait([&](auto, auto) { ioContext.stop(); });
 
-        //start server
+        // //start server
+        // {
+        //     Server s(ioContext, vm["bulk"].as<std::size_t>());
+        //     s.listen(vm["port"].as<unsigned short>());
+        //     ioContext.run();
+        // }
+
+        ba::thread_pool pool{3};
+        ba::signal_set signals{pool, SIGINT, SIGTERM};
+        signals.async_wait([&](auto, auto) { pool.stop(); });
         {
-            Server s(ioContext, vm["bulk"].as<std::size_t>());
+            Server s(pool, vm["bulk"].as<std::size_t>());
             s.listen(vm["port"].as<unsigned short>());
-            ioContext.run();
+            pool.join();
         }
+
+        std::cout << "END" << std::endl;
 
         return EXIT_SUCCESS;
     } catch (const std::exception& ex) {

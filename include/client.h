@@ -11,6 +11,8 @@
 #include <boost/asio/signal_set.hpp>
 #include <boost/asio/streambuf.hpp>
 
+#include <boost/asio/thread_pool.hpp>
+
 #include <iostream>
 #include <thread>
 

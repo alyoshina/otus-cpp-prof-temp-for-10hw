@@ -2,9 +2,10 @@
 
 #include "client.h"
 
+template <typename Context>
 class Server {
 public:
-    Server(ba::io_context& io_c, std::size_t b)
+    Server(Context& io_c, std::size_t b)
         : bulk(b)
         , ioContext(io_c)
         , holdStaticCmdsClient(b)
@@ -15,7 +16,7 @@ public:
     }
 private:
     std::size_t bulk;
-    ba::io_context& ioContext;
+    Context& ioContext;
     std::shared_ptr<ICommands> sharedBulk;
 
     Client holdStaticCmdsClient;
